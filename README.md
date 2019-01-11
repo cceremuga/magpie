@@ -6,5 +6,5 @@ Play chess in your CLI until something goes horribly wrong and it crashes! Fun!
 
 * pip install chess-library
 * pip install prompt_toolkit
-* python main.pi
+* python main.py
 * Enjoy
