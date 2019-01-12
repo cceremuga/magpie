@@ -116,13 +116,74 @@ class Magpie:
             self.move_counter = self.move_counter + 1
 
     def get_best_move(self):
-        moves = []
+        ugly_moves = []
 
         for move in self.chess_board.legal_moves:
-            moves.append(move)
+            ugly_moves.append(move)
 
-        secure_random = random.SystemRandom()
-        return self.chess_board.san(secure_random.choice(moves))
+        print(ugly_moves)
+
+        best_move = None
+        best_value = -9999
+
+        for move in ugly_moves:
+            self.chess_board.push(move)
+            board_value = -(self.evaluate())
+
+            self.chess_board.pop()
+
+            if board_value > best_value:
+                best_value = board_value
+                best_move = move
+
+        return self.chess_board.san(best_move)
+
+    def evaluate(self):
+        total_evaluation = 0
+
+        i = 0
+        j = 0
+
+        while i < 8:
+            while j < 8:
+                total_evaluation += self.get_piece_value(i, j)
+                j += 1
+            i += 1
+
+        return total_evaluation
+
+    def get_piece_value(self, file, rank):
+        square = chess.square(file, rank)
+        piece = self.chess_board.piece_at(square)
+
+        if piece is None:
+            return 0
+
+        absolute_value = self.get_absolute_value(piece.symbol().lower())
+
+        if piece.color:
+            return absolute_value
+        else:
+            return -1 * absolute_value
+
+    def get_absolute_value(self, piece):
+        if piece == 'p':
+            return 10
+
+        if piece == 'r':
+            return 50
+
+        if piece == 'n':
+            return 30
+
+        if piece == 'b':
+            return 30
+
+        if piece == 'q':
+            return 90
+
+        if piece == 'k':
+            return 900
 
     def main_menu_loop(self):
         while True:
@@ -145,8 +206,9 @@ class Magpie:
                 quit()
 
     def get_side_choice(self):
-        print('Which side would you like to play? w for white or b for black. [w]')
-        return self.get_input()
+        print('You will be playing as the white pieces.')
+        return WHITE_SIDE
+        #return self.get_input()
 
 if __name__ == '__main__':
     Magpie()
