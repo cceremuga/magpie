@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import chess
 import random
 from prompt_toolkit import prompt
@@ -9,12 +11,13 @@ QUIT_COMMANDS = ['q', 'quit', 'exit']
 WHITE_SIDE = 'w'
 BLACK_SIDE = 'b'
 
+
 class Magpie:
     def __init__(self):
         self.chess_board = chess.Board()
         self.white_to_move = True
         self.move_counter = 1
-        self.prompt_style = Style.from_dict({ 'prompt': '#ff0066' })
+        self.prompt_style = Style.from_dict({'prompt': '#ff0066'})
         self.prompt_message = [('class:prompt', 'Magpie>> ')]
 
         print('')
@@ -22,7 +25,7 @@ class Magpie:
         print('Stupidly early developer edition v0.01')
         print('')
 
-        side = self.main_menu_loop();
+        side = self.main_menu_loop()
         self.game_loop(side)
 
     def game_loop(self, side):
@@ -108,7 +111,7 @@ class Magpie:
 
     def output_board_state(self, move):
         print('')
-        print(self.move_counter, WHITE_MOVE_NOTATION if self.white_to_move else BLACK_MOVE_NOTATION , move, sep='')
+        print(self.move_counter, WHITE_MOVE_NOTATION if self.white_to_move else BLACK_MOVE_NOTATION, move, sep='')
         print('')
         print(self.chess_board.unicode())
 
@@ -120,8 +123,6 @@ class Magpie:
 
         for move in self.chess_board.legal_moves:
             ugly_moves.append(move)
-
-        print(ugly_moves)
 
         best_move = None
         best_value = -9999
@@ -208,7 +209,8 @@ class Magpie:
     def get_side_choice(self):
         print('You will be playing as the white pieces.')
         return WHITE_SIDE
-        #return self.get_input()
+        # return self.get_input()
+
 
 if __name__ == '__main__':
     Magpie()
